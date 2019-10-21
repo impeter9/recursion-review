@@ -4,18 +4,20 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className
-) {
+var getElementsByClassName = function(className) {
   var arr = [];
   var currentElement = document.body;
-  for (let i=0; i<currentElement.childNodes.length; i++){
-    if (currentElement.classList.includes(className)){
+  var getCurrentElement = function (currentElement){
+    if (currentElement.classList.contains(className)){
       arr.push(currentElement);
     }
-    if (currentElement.childNodes.length === 0){
-      continue
+    for (let i=0; i<currentElement.childNodes.length; i++){
+      if (currentElement.childNodes[i].classList === undefined){
+        continue;
+      }
+      getCurrentElement(currentElement.childNodes[i])
     }
-    getElementsByClassName(currentElement.childNodes[i])
   }
+  getCurrentElement(currentElement);
   return arr;
 };
